@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/fs"
 	"log"
-	"os/exec"
 	"path/filepath"
 	"strings"
 	"time"
@@ -66,29 +65,13 @@ func ParseCommands() Commands {
 	start := time.Now()
 
 	if len(files) == 0 {
-		files, err = collectFiles(*basePath, *ignoreList)
+		files, err = CollectFiles(*basePath, *ignoreList)
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
 
 	fmt.Printf("collectFiles time %+v\n", time.Since(start))
-	// start = time.Now()
-
-	// if len(files) == 0 {
-	// 	out := runCmd("find . -name \"*.md\"", true)
-	// 	files = strings.Split(string(out), "\n")
-	// 	if len(files) > 0 {
-	// 		files = files[:len(files)-1]
-	// 	}
-	// }
-	// fmt.Printf("find time %+v\n", time.Since(start))
-
-	// pretty.Println(collected)
-	// pretty.Println(files)
-
-	// pretty.Pdiff(log.Default(), collected, files)
-	// pretty.Println(pretty.Diff(collected, files))
 
 	return Commands{
 		BasePath:        *basePath,
@@ -113,18 +96,21 @@ func readIgnoreFile(path string) (*gitignore.GitIgnore, error) {
 	return gitignore.CompileIgnoreFile(path)
 }
 
-func collectFiles(basepath string, ignore gitignore.GitIgnore) ([]string, error) {
-	files := []string{}
-	log.Println(basepath)
+func CollectFiles(basepath string, ignore gitignore.GitIgnore) ([]string, error) {
+	var files []string
 
 	err := filepath.WalkDir(basepath, func(path string, d fs.DirEntry, err error) error {
 		if !ignore.MatchesPath(path) {
 			if !d.IsDir() {
 				i := strings.LastIndexAny(path, ".")
-				// fmt.Println(path[i:])
 				if i != -1 && path[i:] == ".md" {
 					files = append(files, path)
 				}
+			}
+		} else {
+			if d.IsDir() && ignore.MatchesPath(path) {
+				fmt.Printf("skipping %+v\n", path)
+				return filepath.SkipDir
 			}
 		}
 		return nil
@@ -134,20 +120,4 @@ func collectFiles(basepath string, ignore gitignore.GitIgnore) ([]string, error)
 	}
 
 	return files, nil
-}
-
-// Deprecated
-func runCmd(cmd string, shell bool) []byte {
-	if shell {
-		out, err := exec.Command("/bin/bash", "-c", cmd).Output()
-		if err != nil {
-			log.Fatal(err)
-		}
-		return out
-	}
-	out, err := exec.Command(cmd).Output()
-	if err != nil {
-		log.Fatal(err)
-	}
-	return out
 }

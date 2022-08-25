@@ -10,7 +10,7 @@ RUN mkdir /app && mv ./main /app/main
 
 FROM alpine:3.16
 
-RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/* && apk add bash
+#RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/* && apk add bash
 
 COPY --from=builder /app /app
 

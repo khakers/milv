@@ -33,9 +33,12 @@ func main() {
 	start = time.Now()
 
 	files, _ := milv.NewFiles(cliCommands.Files, config)
+	fmt.Printf("NewFiles time %+v\n", time.Since(start))
+	start = time.Now()
+
 	files.Run(cliCommands.Verbose)
 
-	fmt.Printf("NewFiles time %+v\n", time.Since(start))
+	fmt.Printf("File parsing time %+v\n", time.Since(start))
 
 	if files.Summary() {
 		os.Exit(1)
