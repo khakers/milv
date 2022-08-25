@@ -1,6 +1,6 @@
 Confirm these statements before you submit your pull request:
 
-- [ ] This pull request follows the contributing [guidelines](https://github.com/magicmatatjahu/milv/blob/master/CONTRIBUTING.md).
+- [ ] This pull request follows the contributing [guidelines](https://github.com/khakers/milv/blob/master/CONTRIBUTING.md).
 - [ ] I have tested my changes.
 - [ ] I have updated the relevant documentation.
 ---

@@ -3,21 +3,21 @@ package pkg
 import (
 	"io/ioutil"
 
-	"github.com/magicmatatjahu/milv/cli"
+	"github.com/khakers/milv/cli"
 	"gopkg.in/yaml.v2"
 )
 
 type Config struct {
-	Files          []File   `yaml:"files"`
-	WhiteListExt   []string `yaml:"white-list-external"`
-	WhiteListInt   []string `yaml:"white-list-internal"`
-	BlackList      []string `yaml:"black-list"`
-	Timeout        int      `yaml:"timeout"`
-	ReguestRepeats int8     `yaml:"request-repeats"`
-	AllowRedirect  bool		`yaml:"allow-redirect"`
-	AllowCodeBlocks bool 	`yaml:"allow-code-blocks"`
-	IgnoreExternal bool     `yaml:"ignore-external"`
-	IgnoreInternal bool     `yaml:"ignore-internal"`
+	Files           []File   `yaml:"files"`
+	WhiteListExt    []string `yaml:"white-list-external"`
+	WhiteListInt    []string `yaml:"white-list-internal"`
+	BlackList       []string `yaml:"black-list"`
+	Timeout         int      `yaml:"timeout"`
+	ReguestRepeats  int8     `yaml:"request-repeats"`
+	AllowRedirect   bool     `yaml:"allow-redirect"`
+	AllowCodeBlocks bool     `yaml:"allow-code-blocks"`
+	IgnoreExternal  bool     `yaml:"ignore-external"`
+	IgnoreInternal  bool     `yaml:"ignore-internal"`
 }
 
 func NewConfig(commands cli.Commands) (*Config, error) {
@@ -79,15 +79,15 @@ func (c *Config) combine(commands cli.Commands) *Config {
 	}
 
 	return &Config{
-		Files:          c.Files,
-		WhiteListExt:   unique(append(c.WhiteListExt, commands.WhiteListExt...)),
-		WhiteListInt:   unique(append(c.WhiteListInt, commands.WhiteListInt...)),
-		BlackList:      unique(append(c.BlackList, commands.BlackList...)),
-		Timeout:        timeout,
-		ReguestRepeats: requestRepeats,
-		AllowRedirect:  allowRedirect,
+		Files:           c.Files,
+		WhiteListExt:    unique(append(c.WhiteListExt, commands.WhiteListExt...)),
+		WhiteListInt:    unique(append(c.WhiteListInt, commands.WhiteListInt...)),
+		BlackList:       unique(append(c.BlackList, commands.BlackList...)),
+		Timeout:         timeout,
+		ReguestRepeats:  requestRepeats,
+		AllowRedirect:   allowRedirect,
 		AllowCodeBlocks: allowCodeBlocks,
-		IgnoreExternal: ignoreExternal,
-		IgnoreInternal: ignoreInternal,
+		IgnoreExternal:  ignoreExternal,
+		IgnoreInternal:  ignoreInternal,
 	}
 }

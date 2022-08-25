@@ -3,7 +3,7 @@ package pkg
 import (
 	"testing"
 
-	"github.com/magicmatatjahu/milv/cli"
+	"github.com/khakers/milv/cli"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -1,7 +1,7 @@
 Confirm these statements before you submit the issue:
 
 - [ ] I have searched open and closed issues for duplicates.
-- [ ] I have read the contributing [guidelines](https://github.com/magicmatatjahu/milv/blob/master/CONTRIBUTING.md).
+- [ ] I have read the contributing [guidelines](https://github.com/khakers/milv/blob/master/CONTRIBUTING.md).
 ---
 
 **Description**
