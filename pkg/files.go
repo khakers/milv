@@ -19,7 +19,6 @@ func NewFiles(filePaths []string, config *Config) (Files, error) {
 
 	bar := progressbar.NewOptions(len(filePaths),
 		progressbar.OptionSetPredictTime(true),
-		progressbar.OptionClearOnFinish(),
 		progressbar.OptionSetElapsedTime(true),
 		progressbar.OptionShowCount(),
 		progressbar.OptionShowIts())
@@ -43,8 +42,6 @@ func NewFiles(filePaths []string, config *Config) (Files, error) {
 	}
 	wg.Wait()
 
-	bar.Finish()
-
 	return destFiles, nil
 }
 
@@ -64,12 +61,43 @@ func newFileWrapper(wg *sync.WaitGroup, idx int, path string, bar *progressbar.P
 	}
 }
 
-func (f Files) Run(verbose bool) {
+func (f Files) Run(verbose bool) error {
+	bar := progressbar.NewOptions(len(f),
+		progressbar.OptionSetPredictTime(true),
+		progressbar.OptionSetElapsedTime(true),
+		progressbar.OptionShowCount(),
+		progressbar.OptionShowIts())
+
+	pool, err := ants.NewPool(16)
+	if err != nil {
+		return err
+	}
+
+	defer pool.Release()
+
+	var wg sync.WaitGroup
+
 	for _, file := range f {
+
+		err := pool.Submit(fileRunWrapper(file, verbose, &wg, bar))
+		if err != nil {
+			return err
+		}
+	}
+
+	wg.Wait()
+	return nil
+}
+
+func fileRunWrapper(file *File, verbose bool, wg *sync.WaitGroup, bar *progressbar.ProgressBar) taskFunc {
+	return func() {
+		wg.Add(1)
+		defer wg.Done()
 		file.Run()
 		if verbose {
 			file.WriteStats()
 		}
+		bar.Add(1)
 	}
 }
 

@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/khakers/milv/cli"
@@ -17,7 +16,7 @@ func main() {
 
 	// pretty.Println(cliCommands)
 
-	fmt.Printf("Parse time %+v\n", time.Since(start))
+	fmt.Printf("Commands Parse time %+v\n", time.Since(start))
 	start = time.Now()
 
 	milv.SetBasePath(cliCommands.BasePath, false)
@@ -34,17 +33,18 @@ func main() {
 	start = time.Now()
 
 	files, _ := milv.NewFiles(cliCommands.Files, config)
+
 	fmt.Printf("\nNewFiles time %+v\n", time.Since(start))
 	start = time.Now()
 
 	files.Run(cliCommands.Verbose)
 
-	fmt.Printf("File parsing time %+v\n", time.Since(start))
+	fmt.Printf("\nFile parsing time %+v\n", time.Since(start))
 	fmt.Printf("Total time elapsed %v\n", time.Since(total))
 
-	if files.Summary() {
-		os.Exit(1)
-	}
+	// if files.Summary() {
+	// 	os.Exit(1)
+	// }
 
-	fmt.Println("NO ISSUES :-)\n")
+	fmt.Println("NO ISSUES :-)")
 }
