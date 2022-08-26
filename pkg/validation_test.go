@@ -42,8 +42,8 @@ func TestValidation(t *testing.T) {
 				AbsPath: "http://dont.exist.link.com",
 				TypeOf:  ExternalLink,
 				Result: LinkResult{
-					Status: false,
-					Message: "Get http://dont.exist.link.com: dial tcp: lookup dont.exist.link.com: no such host",
+					Status:  false,
+					Message: "Get \"http://dont.exist.link.com\": dial tcp: lookup dont.exist.link.com: no such host",
 				},
 			},
 		}
@@ -116,7 +116,7 @@ func TestValidation(t *testing.T) {
 				AbsPath: "test-markdowns/external_links.md#first-header",
 				TypeOf:  InternalLink,
 				Result: LinkResult{
-					Status:  true,
+					Status: true,
 				},
 			},
 			Link{

@@ -41,8 +41,8 @@ func TestStats(t *testing.T) {
 						AbsPath: "http://dont.exist.link.com",
 						TypeOf:  ExternalLink,
 						Result: LinkResult{
-							Status: false,
-							Message: "Get http://dont.exist.link.com: dial tcp: lookup dont.exist.link.com: no such host",
+							Status:  false,
+							Message: "Get \"http://dont.exist.link.com\": dial tcp: lookup dont.exist.link.com: no such host",
 						},
 					},
 				},
