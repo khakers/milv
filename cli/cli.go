@@ -56,10 +56,10 @@ func ParseCommands() Commands {
 	if *basePath != "" {
 		*configFile = fmt.Sprintf("%s/%s", *basePath, *configFile)
 	}
-
+	var ignoreList *gitignore.GitIgnore
 	ignoreList, err := readIgnoreFile(*basePath + *ignoreFile)
 	if err != nil {
-		log.Fatal(err)
+		ignoreList = gitignore.CompileIgnoreLines("")
 	}
 
 	start := time.Now()
@@ -100,6 +100,10 @@ func CollectFiles(basepath string, ignore gitignore.GitIgnore) ([]string, error)
 	var files []string
 
 	err := filepath.WalkDir(basepath, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			log.Println(path)
+			return err
+		}
 		if !ignore.MatchesPath(path) {
 			if !d.IsDir() {
 				i := strings.LastIndexAny(path, ".")
@@ -108,6 +112,7 @@ func CollectFiles(basepath string, ignore gitignore.GitIgnore) ([]string, error)
 				}
 			}
 		} else {
+			// may be able to remove IsDir()
 			if d.IsDir() && ignore.MatchesPath(path) {
 				fmt.Printf("skipping %+v\n", path)
 				return filepath.SkipDir

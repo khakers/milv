@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+	total := time.Now()
 	start := time.Now()
 
 	cliCommands := cli.ParseCommands()
@@ -33,16 +34,17 @@ func main() {
 	start = time.Now()
 
 	files, _ := milv.NewFiles(cliCommands.Files, config)
-	fmt.Printf("NewFiles time %+v\n", time.Since(start))
+	fmt.Printf("\nNewFiles time %+v\n", time.Since(start))
 	start = time.Now()
 
 	files.Run(cliCommands.Verbose)
 
 	fmt.Printf("File parsing time %+v\n", time.Since(start))
+	fmt.Printf("Total time elapsed %v\n", time.Since(total))
 
 	if files.Summary() {
 		os.Exit(1)
 	}
 
-	fmt.Println("NO ISSUES :-)")
+	fmt.Println("NO ISSUES :-)\n")
 }

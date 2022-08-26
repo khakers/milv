@@ -1,5 +1,7 @@
 # Markdown internal & external links validation
 
+A optimized fork of `MILV` running on modern Go with improved features.
+
 `MILV` is a bot that parses, checks and validates internal & external URLs links in markdown files. It can be used
 for [verification pull requests](#validate-pull-requests) and also as standalone library.
 
@@ -71,7 +73,11 @@ milv ./README.md ./foo/bar.md
 If you do not want to install `milv` and it's dependencies you can simply use Docker and Docker image:
 
 ```bash
-docker run --rm -v $PWD:/milv:ro khakers/milv:stability -base-path=/milv
+docker run --rm -v $PWD:/milv:ro khakers/milv:latest -base-path=/milv
+```
+
+```powershell
+docker run --rm -v ${PWD}:/milv:ro khakers/milv:latest -base-path=/milv
 ```
 
 ## Config file
@@ -111,7 +117,7 @@ files:
       white-list-internal: [ "#contributing" ]
 ```
 
-Before run validation, `milv` remove from files list `./README.md` file to check and connect
+Before running validation, `milv` remove from files list `./README.md` file to check and connect
 global `white-list-external` with file `white-list-external` and `white-list-external` for `./src/foo.md` file will look
 that:
 
@@ -122,7 +128,7 @@ white-list-external: [ "localhost", "abc.com", "github.com" ]
 Similarly will be with `white-list-internal`.
 
 If you have a config file and you use a `CLI`, then `milv` will automatically combine the parameters from file and
-consol.
+console.
 
 #### Advanced configuration
 
