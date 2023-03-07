@@ -8,7 +8,7 @@ require (
 	github.com/pkg/errors v0.8.0
 	github.com/schollz/closestmatch v2.1.0+incompatible
 	github.com/stretchr/testify v1.2.2
-	golang.org/x/net v0.0.0-20180811021610-c39426892332
+	golang.org/x/net v0.7.0
 	gopkg.in/yaml.v2 v2.2.1
 )
 
